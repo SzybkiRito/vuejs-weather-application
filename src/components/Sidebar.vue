@@ -63,7 +63,7 @@ export default {
       this.$root.$refs.home.getCity(this.city);
 
       fetch(
-        `https://www.metaweather.com/api/location/search/?query=${this.city}`
+        `https://stark-garden-95720.herokuapp.com/https://www.metaweather.com/api/location/search/?query=${this.city}`
       ).then((res) => {
         res.json().then((data) => {
           this.wordId = data[0].woeid;
@@ -72,7 +72,7 @@ export default {
       });
     },
     getWeather() {
-      fetch(`https://www.metaweather.com/api/location/${this.wordId}/`).then(
+      fetch(`https://stark-garden-95720.herokuapp.com/https://www.metaweather.com/api/location/${this.wordId}/`).then(
         (res) => {
           res.json().then((weather) => {
             this.weather = weather.consolidated_weather;

@@ -1,68 +1,66 @@
 <template>
   <section class="home">
     <div id="container" v-if="weather[0] != undefined">
-        <div class="container-top">
-          <div class="box">
-            <span class="day">{{ weather[0].applicable_date }}</span>
-            <img :src="imageSource[0]" alt="icon" width="80px" height="80px" />
-            <span class="temperature">{{ weather[0].the_temp }}°C</span>
+      <div class="container-top">
+        <div class="box">
+          <span class="day">{{ weather[0].applicable_date }}</span>
+          <img :src="imageSource[0]" alt="icon" width="80px" height="80px" />
+          <span class="temperature">{{ weather[0].the_temp }}°C</span>
+        </div>
+        <div class="box">
+          <span class="day">{{ weather[1].applicable_date }}</span>
+          <img :src="imageSource[1]" alt="icon" width="80px" height="80px" />
+          <span class="temperature">{{ weather[1].the_temp }}°C</span>
+        </div>
+        <div class="box">
+          <span class="day">{{ weather[2].applicable_date }}</span>
+          <img :src="imageSource[2]" alt="icon" width="80px" height="80px" />
+          <span class="temperature">{{ weather[2].the_temp }}°C</span>
+        </div>
+        <div class="box">
+          <span class="day">{{ weather[3].applicable_date }}</span>
+          <img :src="imageSource[3]" alt="icon" width="80px" height="80px" />
+          <span class="temperature">{{ weather[3].the_temp }}°C</span>
+        </div>
+        <div class="box">
+          <span class="day">{{ weather[4].applicable_date }}</span>
+          <img :src="imageSource[4]" alt="icon" width="80px" height="80px" />
+          <span class="temperature">{{ weather[4].the_temp }}°C</span>
+        </div>
+      </div>
+      <div class="highlights">
+        <h2>Today's Highlights</h2>
+        <div class="container-bottom">
+          <div class="highlight-box">
+            <span class="windStatus">Wind status</span>
+            <p class="windData">
+              <strong style="font-size: 3rem">{{ windStatus }}</strong
+              >mph
+            </p>
           </div>
-          <div class="box">
-            <span class="day">{{ weather[1].applicable_date }}</span>
-            <img :src="imageSource[1]" alt="icon" width="80px" height="80px" />
-            <span class="temperature">{{ weather[1].the_temp }}°C</span>
+          <div class="highlight-box">
+            <span class="windStatus">Humidity</span>
+            <p class="windData">
+              <strong style="font-size: 3rem">{{ weather[0].humidity }}</strong>
+            </p>
           </div>
-          <div class="box">
-            <span class="day">{{ weather[2].applicable_date }}</span>
-            <img :src="imageSource[2]" alt="icon" width="80px" height="80px" />
-            <span class="temperature">{{ weather[2].the_temp }}°C</span>
+          <div class="highlight-box">
+            <span class="windStatus">Visibility</span>
+            <p class="windData">
+              <strong style="font-size: 3rem">6,4</strong> miles
+            </p>
           </div>
-          <div class="box">
-            <span class="day">{{ weather[3].applicable_date }}</span>
-            <img :src="imageSource[3]" alt="icon" width="80px" height="80px" />
-            <span class="temperature">{{ weather[3].the_temp }}°C</span>
-          </div>
-          <div class="box">
-            <span class="day">{{ weather[4].applicable_date }}</span>
-            <img :src="imageSource[4]" alt="icon" width="80px" height="80px" />
-            <span class="temperature">{{ weather[4].the_temp }}°C</span>
+          <div class="highlight-box">
+            <span class="windStatus">Air Pressure</span>
+            <p class="windData">
+              <strong style="font-size: 3rem">{{
+                weather[0].air_pressure
+              }}</strong
+              >mb
+            </p>
           </div>
         </div>
-        <div class="highlights">
-          <h2>Today's Highlights</h2>
-          <div class="container-bottom">
-            <div class="highlight-box">
-              <span class="windStatus">Wind status</span>
-              <p class="windData">
-                <strong style="font-size: 3rem">{{ windStatus }}</strong
-                >mph
-              </p>
-            </div>
-            <div class="highlight-box">
-              <span class="windStatus">Humidity</span>
-              <p class="windData">
-                <strong style="font-size: 3rem">{{
-                  weather[0].humidity
-                }}</strong>
-              </p>
-            </div>
-            <div class="highlight-box">
-              <span class="windStatus">Visibility</span>
-              <p class="windData">
-                <strong style="font-size: 3rem">6,4</strong> miles
-              </p>
-            </div>
-            <div class="highlight-box">
-              <span class="windStatus">Air Pressure</span>
-              <p class="windData">
-                <strong style="font-size: 3rem">{{
-                  weather[0].air_pressure
-                }}</strong
-                >mb
-              </p>
-            </div>
-          </div>
-        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -83,9 +81,11 @@ export default {
   },
   methods: {
     getCity(city) {
-      fetch(
-        `https://www.metaweather.com/api/location/search/?query=${city}`
-      ).then((res) => {
+      fetch(`https://stark-garden-95720.herokuapp.com/https://www.metaweather.com/api/location/search/?query=${city}`, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      }).then((res) => {
         res.json().then((data) => {
           this.wordId = data[0].woeid;
           this.getWeather();
@@ -94,12 +94,16 @@ export default {
       });
     },
     getWeather() {
-      fetch(`https://www.metaweather.com/api/location/${this.wordId}/`).then(
+      fetch(`https://stark-garden-95720.herokuapp.com/https://www.metaweather.com/api/location/${this.wordId}/`, {
+        "Access-Control-Allow-Origin": "*"
+      }).then(
         (res) => {
           res.json().then(async (weather) => {
             this.weather = weather.consolidated_weather;
             for (let i = 0; i < 5; i++) {
-              this.imageSource.push(`https://www.metaweather.com/static/img/weather/${this.weather[i].weather_state_abbr}.svg`);
+              this.imageSource.push(
+                `https://www.metaweather.com/static/img/weather/${this.weather[i].weather_state_abbr}.svg`
+              );
               this.weather[i].the_temp = Math.round(this.weather[i].the_temp);
             }
             this.windStatus = Math.round(this.weather[0].wind_speed);
@@ -135,7 +139,6 @@ $dark_blue: rgb(9, 14, 28);
   width: 60%;
   height: 50%;
   margin: auto;
-
 
   display: flex;
   align-items: center;
