@@ -1,5 +1,5 @@
 # Weather Application
-Simple design weather application base on [a link](https://www.metaweather.com/api/)
+Simple design weather application base on [MetaWeather API](https://www.metaweather.com/api/)
 
 ## Tools
 * Vue.js
