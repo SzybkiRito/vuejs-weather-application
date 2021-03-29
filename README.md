@@ -1,6 +1,8 @@
 # Weather Application
 Simple design weather application base on [MetaWeather API](https://www.metaweather.com/api/)
 
+[Website](https://weatherszybkirito.herokuapp.com/)
+
 ## Tools
 * Vue.js
 * HTML5 + JS
